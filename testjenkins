@@ -1,0 +1,33 @@
+pipeline {
+agent any
+stages {
+stage('Clean workspace'){
+steps{
+cleanWs()
+}
+}
+stage('Scm Checkout'){
+steps{
+git 'https://github.com/Nandinim1995/demojenkin.git'
+}
+}
+stage('Restore packages'){
+steps{
+sh '''cd testjenkin
+dotnet restore'''
+}
+}
+stage('Msbuild package'){
+steps{
+sh '''cd testjenkin
+dotnet build -f net5.0'''
+}
+}
+stage('dotnet run'){
+steps{
+sh '''cd MVCEntityCRUDDemo/bin/Debug/net5.0
+dotnet MVCEntityCRUDDemo.dll'''
+}
+}
+}
+}
